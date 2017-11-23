@@ -13,10 +13,11 @@ class IPVS
     end
 
     def dests_sync(comp_dests)
-      delete_dests = comp_dests.select { |cd| self.dests.none? {|d| d.equal?(cd) } }
+      new_dests = self.dests.dup
+      delete_dests = comp_dests.select { |cd| new_dests.none? {|d| d.equal?(cd) } }
       delete_dests(delete_dests)
 
-      new_dests = self.dests.select {|d| comp_dests.none? {|cd| cd.equal?(d) } }
+      new_dests = new_dests.select {|d| comp_dests.none? {|cd| cd.equal?(d) } }
       add_dests(new_dests)
     end
 
